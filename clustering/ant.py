@@ -32,7 +32,7 @@ class Ant:
         self.load = obj
         change_state()
 
-    def drop_off(self)
+    def drop_off(self):
         temp = self.load
         self.load = None
         change_state()
