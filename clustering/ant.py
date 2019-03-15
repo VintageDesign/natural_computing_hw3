@@ -27,15 +27,18 @@ class Ant:
     def get_state(self):
         return self.state
 
+    def get_pos(self):
+        return self.x, self.y
+
 
     def pick_up(self, obj):
         self.load = obj
-        change_state()
+        self.change_state()
 
     def drop_off(self):
         temp = self.load
         self.load = None
-        change_state()
+        self.change_state()
         return temp
 
 
