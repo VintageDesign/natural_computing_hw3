@@ -56,7 +56,8 @@ def parse_args():
 def main(args):
     print(args)
     cluster = Cluster(args.population, args.objects, args.colors, args.x_size, args.y_size, args.ticks)
-    cluster.print_board()
+    cluster.print_board(0)
+    cluster.run_algorithm()
 
 
 
