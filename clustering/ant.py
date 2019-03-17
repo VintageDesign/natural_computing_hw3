@@ -1,4 +1,4 @@
-
+import random
 
 class Ant:
     def __init__(self, start_x, start_y):
@@ -14,6 +14,7 @@ class Ant:
 
         self.state = 'empty'
 
+    
     def change_state(self):
         """
         Changes the ants FSM state
@@ -24,9 +25,11 @@ class Ant:
         elif self.state == 'loaded':
             self.state = 'empty'
 
+    
     def get_state(self):
         return self.state
 
+    
     def get_pos(self):
         return self.x, self.y
 
@@ -35,6 +38,7 @@ class Ant:
         self.load = obj
         self.change_state()
 
+    
     def drop_off(self):
         temp = self.load
         self.load = None
@@ -42,3 +46,16 @@ class Ant:
         return temp
 
 
+    def walk(self):
+        while True:
+            xMove = random.choice([-1, 1])
+            yMove = random.choice([-1, 1])
+
+            xPos = self.x + xMove
+            yPos = self.y + yMove
+
+            if xPos >= 0 and yPos >= 0 and xPos < 200 and yPos < 200:
+                self.x = xPos
+                self.y = yPos
+                return
+        
