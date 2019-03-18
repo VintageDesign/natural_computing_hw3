@@ -110,24 +110,6 @@ class Cluster:
         f = (1 / (search_range ** 2)) * sum
 
         return f if f > 0 else 0
-        """
-        for r in range(self.grid_size[0]):
-            for c in range(self.grid_size[1]):
-                x_low = 0 if r - search_range < 0 else r - search_range
-                x_high = self.grid_size[0] - 1 if r + \
-                    search_range >= self.grid_size[0] else r + search_range
-                y_low = 0 if c - search_range < 0 else c - search_range
-                y_high = self.grid_size[0] - 1 if c + \
-                    search_range >= self.grid_size[1] else c + search_range
-
-                sub = self.grid[x_low:x_high + 1, y_low:y_high + 1]
-                unique, count = np.unique(sub, return_counts=True)
-                sub_dict = dict(zip(unique, count))
-                if 1 in sub_dict:
-                    self.red_density[r][c] = sub_dict[1]
-                if 2 in sub_dict:
-                    self.blue_density[r][c] = sub_dict[2]
-                """
 
     def run_algorithm(self):
         for tick in range(self.ticks):
@@ -154,5 +136,5 @@ class Cluster:
 
                 ant.walk()
 
-            if tick % 1 == 0:
+            if tick % 5000 == 0:
                 self.print_board(tick)
