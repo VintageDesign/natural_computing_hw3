@@ -59,7 +59,7 @@ class Cluster:
 
     def print_board(self, tick):
         if tick % 1000 == 0:
-            plt.savefig("cluster" + str(tick) + ".png")
+            plt.savefig("outcomes/cluster" + str(tick) + ".png")
         plt.clf()
         plt.xlim(0, self.grid_size[0])
         plt.ylim(0, self.grid_size[1])

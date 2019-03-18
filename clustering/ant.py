@@ -30,34 +30,34 @@ class Ant:
         return self.x, self.y
 
     def pick_up(self, obj, density):
-        thresh = 0.1
+        thresh = 0.15
         prob = (thresh / (thresh + density)) ** 2
         chance = np.random.rand()
 
         if chance < prob:
-            self.change_state(obj)
+            self.state = obj
             print("Pick up: %f, %f" % (density, prob))
             return True
         print("No pick up: %f, %f" % (density, prob))
         return False
 
     def drop_off(self, density):
-        thresh = 0.05
+        thresh = 0.15
         chance = np.random.rand()
 
         prob = (density / (thresh + density)) ** 2
 
         if chance < prob:
             temp = self.state
-            self.change_state(None)
+            self.state = None
             print("Drop: %f, %f" % (density, prob))
             return temp
         return 0
 
     def walk(self):
         while True:
-            xMove = random.choice([-1, 1])
-            yMove = random.choice([-1, 1])
+            xMove = random.choice([-4, 4])
+            yMove = random.choice([-4, 4])
 
             xPos = self.x + xMove
             yPos = self.y + yMove

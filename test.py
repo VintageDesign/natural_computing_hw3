@@ -44,7 +44,7 @@ def parse_args():
     parser.add_argument(
         "--ticks", "-t",
         type=int,
-        default=10000,
+        default=100000,
         help="The ticks that that the cluster will run for")
 
     return parser.parse_args()
