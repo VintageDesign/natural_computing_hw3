@@ -45,6 +45,9 @@ class Cluster:
                 x = np.random.randint(0, self.grid_size[0] - 1)
                 y = np.random.randint(0, self.grid_size[1] - 1)
 
+                while self.grid[x][y] != 0:
+                    x = np.random.randint(0, self.grid_size[0] - 1)
+                    y = np.random.randint(0, self.grid_size[1] - 1)
                 self.grid[x][y] = color + 1
                 self.objects.append([color + 1, x, y])
 
