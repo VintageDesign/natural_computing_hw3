@@ -136,5 +136,5 @@ class Cluster:
 
                 ant.walk()
 
-            if tick % 5000 == 0:
+            if tick % 50000 == 0:
                 self.print_board(tick)

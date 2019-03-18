@@ -36,9 +36,7 @@ class Ant:
 
         if chance < prob:
             self.state = obj
-            print("Pick up: %f, %f" % (density, prob))
             return True
-        print("No pick up: %f, %f" % (density, prob))
         return False
 
     def drop_off(self, density):
@@ -50,7 +48,6 @@ class Ant:
         if chance < prob:
             temp = self.state
             self.state = None
-            print("Drop: %f, %f" % (density, prob))
             return temp
         return 0
 
