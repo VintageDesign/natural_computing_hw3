@@ -13,9 +13,7 @@ arr[8][8] = 9
 arr[9][9] = 10
 print(arr)
 
-arr1 = arr[2:8, 2:8]
+arr1 = arr[2:-2, 2:-2]
 print(arr1)
 unique, count = np.unique(arr1, return_counts = True)
 
-sub_dict = dict(zip(unique, count))
-print(sub_dict[-1])
