@@ -61,8 +61,7 @@ class Cluster:
             self.ants.append(Ant(x, y, self.grid_size[0], self.grid_size[1]))
 
     def print_board(self, tick):
-        if tick % 1000 == 0:
-            plt.savefig("outcomes/cluster" + str(tick) + ".png")
+        plt.savefig("outcomes/cluster" + str(tick) + ".png")
         plt.clf()
         plt.xlim(0, self.grid_size[0])
         plt.ylim(0, self.grid_size[1])
@@ -141,3 +140,4 @@ class Cluster:
 
             if tick % 50000 == 0:
                 self.print_board(tick)
+                print ("Tick: ", tick)

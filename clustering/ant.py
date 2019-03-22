@@ -19,7 +19,6 @@ class Ant:
 
     def change_state(self, color):
         """
-        Changes the ants FSM state
         """
         self.state = color
 
@@ -52,14 +51,12 @@ class Ant:
         return 0
 
     def walk(self):
-        while True:
-            xMove = random.choice([-4, 4])
-            yMove = random.choice([-4, 4])
+        xMove = random.choice([-4, 4])
+        yMove = random.choice([-4, 4])
 
-            xPos = self.x + xMove
-            yPos = self.y + yMove
+        xPos = self.x + xMove
+        yPos = self.y + yMove
 
-            if xPos >= 0 and yPos >= 0 and xPos < self.x_max and yPos < self.y_max:
-                self.x = xPos
-                self.y = yPos
-                return
+        self.x = xPos % self.x_max
+        self.y = yPos % self.y_max
+        return
