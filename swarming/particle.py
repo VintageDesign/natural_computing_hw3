@@ -11,7 +11,7 @@ class Particle:
         self.cities = self.shuffle_cities(cities_list)
         self.solution = self.fit(cities)
         self.pbest = self.solution
-        self.velocity = []
+        self.velocity = 0
 
     def shuffle_cities(self, cities_list):
         """
@@ -43,3 +43,27 @@ class Particle:
             index += 1
 
         return distance
+
+    def getSolution(self):
+        """
+
+        """
+        return self.solution
+
+    def getPBest(self):
+        """
+
+        """
+        return self.pbest
+
+    def getVelocity(self):
+        """
+
+        """
+        return self.velocity
+
+    def setVelocity(self, velocity):
+        """
+
+        """
+        self.velocity = velocity
