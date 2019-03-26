@@ -45,7 +45,7 @@ class Swarm:
                 phi1 = 0.1 + np.random.randn()
                 phi2 = 0.1 + np.random.randn()
 
-                curr_solution = particle.getSolution()
+                particle_location = particle.getLocation()
 
                 curr_velocity = particle.getVelocity() + \
                     (phi1 * (particle.getPBest() - curr_solution) + phi2 * (self.gBest - curr_solution))
