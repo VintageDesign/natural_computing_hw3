@@ -45,12 +45,14 @@ class Swarm:
                 phi1 = 0.1 + np.random.randn()
                 phi2 = 0.1 + np.random.randn()
 
-                particle_location = particle.getLocation()
+                curr_location = particle.getLocation()
+                # TO-DO: figure out a way to map the location of each particle in relation to each other
 
                 curr_velocity = particle.getVelocity() + \
-                    (phi1 * (particle.getPBest() - curr_solution) + phi2 * (self.gBest - curr_solution))
+                    (phi1 * (particle.getPBest() - curr_location) + \
+                        phi2 * (self.gBest - curr_location))
                 
                 particle.setVelocity(curr_velocity)
 
-                if (curr_solution + curr_velocity > 0) and (curr_solution + curr_velocity < 2):
-                    curr_solution += curr_velocity
+                if (curr_location + curr_velocity > 0) and (curr_location + curr_velocity < 2):
+                    curr_location += curr_velocity
