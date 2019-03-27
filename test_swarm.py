@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from swarming import Swarm
+from swarming import Particle_Swarm
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Swarm Optimization of f(x) = (2^(-2((x-.01)/.9)^2) * (sin(5*pi*x))^6")
@@ -19,23 +19,25 @@ def parse_args():
     parser.add_argument(
         "--v_max",
         type=int,
-        default=5,
+        default=.5,
         help="maximum velocity")
     parser.add_argument(
         "--v_min",
         type=int,
-        default=5,
+        default=.01,
         help="minimum velocity")
 
     return parser.parse_args()
 
 def main(args):
     print(args)
-    swarm = Swarm(
+    swarm = Particle_Swarm(
         args.population,
         args.v_min,
         args.v_max
     )
+
+    swarm.run(100000)
 
 if __name__ == "__main__":
     main(parse_args())
