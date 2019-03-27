@@ -33,8 +33,22 @@ class Particle_Swarm:
         return y;
 
 
-    def run(self):
-        # TODO put algorithm from pg. 250 here
+    def run(self, max_iterations):
+        j = 0
+        while (j < max_iterations):
+            for particle in self.swarm:
+                phi1 = 0.1 + np.random.randn()
+                phi2 = 0.1 + np.random.randn()
+
+                particle_location = particle.getLocation()
+
+                curr_velocity = particle.getVelocity() + \
+                    (phi1 * (particle.getPBest() - curr_solution) + phi2 * (self.gBest - curr_solution))
+
+                particle.setVelocity(curr_velocity)
+
+                if (curr_solution + curr_velocity > 0) and (curr_solution + curr_velocity < 2):
+                    curr_solution += curr_velocity
 
 
     def plot(point, path, wait):
