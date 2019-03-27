@@ -3,7 +3,7 @@ import argparse
 from swarming import Swarm
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Cluster objects via the ACA")
+    parser = argparse.ArgumentParser(description="Swarm Optimization of f(x) = (2^(-2((x-.01)/.9)^2) * (sin(5*pi*x))^6")
 
     parser.add_argument(
         "--quiet",
@@ -17,11 +17,15 @@ def parse_args():
         default=5,
         help="The population size.")
     parser.add_argument(
-        "--cities",
-        "-c",
+        "--v_max",
         type=int,
         default=5,
-        help="The number of cities to organize.")
+        help="maximum velocity")
+    parser.add_argument(
+        "--v_min",
+        type=int,
+        default=5,
+        help="minimum velocity")
 
     return parser.parse_args()
 
@@ -29,7 +33,8 @@ def main(args):
     print(args)
     swarm = Swarm(
         args.population,
-        args.cities
+        args.v_min,
+        args.v_max
     )
 
 if __name__ == "__main__":

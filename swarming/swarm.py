@@ -1,58 +1,54 @@
 import numpy as np
+from scipy import optimize
+import matplotlib.pyplot as plt
 import random
-import sys
-from .particle import Particle
+import math
 
-class Swarm:
 
-    def __init__(self, population_size, cities_size):
+class Particle_Swarm:
+
+    def __init__(self, pop_size, v_min, v_max):
+        """
+        Initialzes particles
         """
 
-        """
-        self.cities = self.init_cities_list(cities_size)
-        self.swarm = self.make_swarm(population_size)
-        self.gBest = self.find_gBest()
+        if v_min > v_max:
+            raise Exception('V_min cannot be bigger than V_max')
 
-    def init_cities_list(self, cities_size):
-        """
-        Creates a city list for all particles
-        """
-        return (np.random.rand(cities_size, 2) * 100).astype(int)
-        
-    def make_swarm(self, population_size):
-        """
-        Creates all of the particles in the swarm
-        """
-        swarm = []
-        while (len(swarm) < population_size):
-            swarm.append(Particle(self.cities))
-        return swarm
+        self.v_min = v_min
+        self.v_max = v_max
 
-    def find_gBest(self):
-        gBest = sys.maxsize
-        for particle in self.swarm:
-            if particle.getSolution() < gBest:
-                gBest = particle.getSolution()
-        return gBest
+        for individual in range(0,pop_size):
+            self.particles.append(np.random.rand(0,1))
+            self.velocities.append(np.random.rand(v_min,v_max))
 
-    def run_algorithm(self):
-        """
 
-        """
-        j = 0
-        while (j < 500):
-            for particle in self.swarm:
-                phi1 = 0.1 + np.random.randn()
-                phi2 = 0.1 + np.random.randn()
 
-                curr_location = particle.getLocation()
-                # TO-DO: figure out a way to map the location of each particle in relation to each other
 
-                curr_velocity = particle.getVelocity() + \
-                    (phi1 * (particle.getPBest() - curr_location) + \
-                        phi2 * (self.gBest - curr_location))
-                
-                particle.setVelocity(curr_velocity)
+    def evaluate(self, x): # This is g() in the book
+        y = float((x - .1)/.9)
+        y = math.pow(y, 2.0)
+        y = math.pow(2.0,(-2.0 * y) )
+        y = y * math.pow(math.sin(5*math.pi*x), 6)
+        return y;
 
-                if (curr_location + curr_velocity > 0) and (curr_location + curr_velocity < 2):
-                    curr_location += curr_velocity
+
+    def run(self):
+        # TODO put algorithm from pg. 250 here
+
+
+    def plot(point, path, wait):
+        plt.clf()
+        if (path == 1):
+            plt.plot(point[0], point[1], color='red', zorder=0, label='Approximate')
+            plt.plot(.1, evaluate(.1),color='blue', label='Actual')
+        plt.scatter(point[0], point[1], marker='o')
+        plt.scatter(.1, evaluate(.1),marker='^')
+        plt.xlim(-.1,1.1)
+        plt.ylim(-.5,1.5)
+        plt.axis('on')
+        if (wait == 0):  plt.ion()
+        leg = plt.legend()
+        plt.show()
+        plt.pause(.001)
+
