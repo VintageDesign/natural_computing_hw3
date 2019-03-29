@@ -14,8 +14,14 @@ def parse_args():
         "--population",
         "-p",
         type=int,
-        default=50,
+        default=25,
         help="The population size.")
+    parser.add_argument(
+        "--it_max",
+        "-i",
+        type=int,
+        default=30,
+        help="maximum iterations")
     parser.add_argument(
         "--v_max",
         type=int,
@@ -34,11 +40,12 @@ def main(args):
     print(args)
     swarm = Particle_Swarm(
         args.population,
+        args.it_max,
         args.v_min,
         args.v_max
     )
 
-    swarm.run(100)
+    swarm.run()
 
 
 if __name__ == "__main__":

@@ -22,12 +22,6 @@ class Cluster:
         self.init_board()
 
     def init_board(self):
-        """
-        Generates the board of objects
-        0: will represent an empty board
-        1: will represent an ant
-        2 - color_count + 1: will represent an object
-        """
         self.ants = []
         self.objects = []
         self.grid = np.zeros((self.grid_size[0], self.grid_size[0]))
@@ -37,9 +31,6 @@ class Cluster:
         self.place_ants()
 
     def place_objects(self):
-        """
-        Distributes objects across the board
-        """
         for color in range(self.colors):
             for obj in range(self.object_count):
                 x = np.random.randint(0, self.grid_size[0] - 1)
@@ -74,14 +65,23 @@ class Cluster:
                 color = 'ro'
             elif obj[0] == 2:
                 color = 'bo'
+            elif obj[0] == 3:
+                color = 'go'
+            elif obj[0] == 4:
+                color = 'yo'
+            elif obj[0] == 5:
+                color = 'ko'
+            elif obj[0] == 6:
+                color = 'mo'
 
             plt.plot(obj[1], obj[2], color)
-
+        '''
         for ant in self.ants:
             x, y = ant.get_pos()
             plt.plot(x, y, 'g+')
-
-        plt.ion()
+        '''
+        if tick != self.ticks:
+            plt.ion()
         plt.show()
         plt.pause(0.0001)
 
@@ -103,7 +103,7 @@ class Cluster:
 
         sub = self.grid[x_low:x_high + 1, y_low:y_high + 1]
 
-        color = 1 if obj[0] == 1 else 2
+        color = obj[0]
         siblings = np.where(sub == color)
 
         sum = 0
@@ -121,7 +121,7 @@ class Cluster:
 
                 if state is None and self.grid[x][y] != 0:
                     density = self.eval_density([self.grid[x][y], x, y])
-                    if ant.pick_up(self.grid[x][y], density) is True:
+                    if ant.pick_up(self.grid[x][y], density, tick) is True:
                         self.grid[x][y] = 0
 
                         idx = -1
@@ -131,13 +131,14 @@ class Cluster:
                         self.objects.pop(idx)
 
                 elif state is not None and self.grid[x][y] == 0:
-                    self.grid[x][y] = ant.drop_off(self.eval_density([state, x, y]))
+                    self.grid[x][y] = ant.drop_off(self.eval_density([state, x, y]), tick)
 
                     if self.grid[x][y] != 0:
                         self.objects.append([self.grid[x][y], x, y])
 
                 ant.walk()
 
-            if tick % 50000 == 0:
+            if tick % 50 == 0:
                 self.print_board(tick)
                 print ("Tick: ", tick)
+        self.print_board(tick);
