@@ -30,7 +30,7 @@ class Particle_Swarm:
             self.swarm.append(x)
             self.velocity.append(np.random.uniform(v_min,v_max))
             self.fitness.append(fit)
-            
+
             self.bestind.append(x)
             self.fitbest.append(fit)
 
@@ -74,7 +74,7 @@ class Particle_Swarm:
 
         print("Best is: %f, %f" % (self.best, self.top) )
 
-                
+
 
     def plot(self, point, path, wait):
         plt.clf()

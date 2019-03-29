@@ -22,12 +22,6 @@ class Cluster:
         self.init_board()
 
     def init_board(self):
-        """
-        Generates the board of objects
-        0: will represent an empty board
-        1: will represent an ant
-        2 - color_count + 1: will represent an object
-        """
         self.ants = []
         self.objects = []
         self.grid = np.zeros((self.grid_size[0], self.grid_size[0]))
@@ -37,9 +31,6 @@ class Cluster:
         self.place_ants()
 
     def place_objects(self):
-        """
-        Distributes objects across the board
-        """
         for color in range(self.colors):
             for obj in range(self.object_count):
                 x = np.random.randint(0, self.grid_size[0] - 1)
@@ -76,12 +67,13 @@ class Cluster:
                 color = 'bo'
 
             plt.plot(obj[1], obj[2], color)
-
+        '''
         for ant in self.ants:
             x, y = ant.get_pos()
             plt.plot(x, y, 'g+')
-
-        plt.ion()
+        '''
+        if tick != self.ticks:
+            plt.ion()
         plt.show()
         plt.pause(0.0001)
 
@@ -138,6 +130,7 @@ class Cluster:
 
                 ant.walk()
 
-            if tick % 50000 == 0:
+            if tick % 50 == 0:
                 self.print_board(tick)
                 print ("Tick: ", tick)
+        self.print_board(tick);
