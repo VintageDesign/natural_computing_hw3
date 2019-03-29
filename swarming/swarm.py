@@ -12,7 +12,7 @@ class Particle_Swarm:
         Initializes particles
         """
 
-        self.it_max = it_max;
+        self.it_max = it_max
         if v_min > v_max:
             raise Exception('V_min cannot be bigger than V_max')
 
