@@ -65,6 +65,14 @@ class Cluster:
                 color = 'ro'
             elif obj[0] == 2:
                 color = 'bo'
+            elif obj[0] == 3:
+                color = 'go'
+            elif obj[0] == 4:
+                color = 'yo'
+            elif obj[0] == 5:
+                color = 'ko'
+            elif obj[0] == 6:
+                color = 'mo'
 
             plt.plot(obj[1], obj[2], color)
         '''
@@ -95,7 +103,7 @@ class Cluster:
 
         sub = self.grid[x_low:x_high + 1, y_low:y_high + 1]
 
-        color = 1 if obj[0] == 1 else 2
+        color = obj[0]
         siblings = np.where(sub == color)
 
         sum = 0
@@ -113,7 +121,7 @@ class Cluster:
 
                 if state is None and self.grid[x][y] != 0:
                     density = self.eval_density([self.grid[x][y], x, y])
-                    if ant.pick_up(self.grid[x][y], density) is True:
+                    if ant.pick_up(self.grid[x][y], density, tick) is True:
                         self.grid[x][y] = 0
 
                         idx = -1
@@ -123,7 +131,7 @@ class Cluster:
                         self.objects.pop(idx)
 
                 elif state is not None and self.grid[x][y] == 0:
-                    self.grid[x][y] = ant.drop_off(self.eval_density([state, x, y]))
+                    self.grid[x][y] = ant.drop_off(self.eval_density([state, x, y]), tick)
 
                     if self.grid[x][y] != 0:
                         self.objects.append([self.grid[x][y], x, y])

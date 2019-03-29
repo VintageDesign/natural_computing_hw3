@@ -28,8 +28,8 @@ class Ant:
     def get_pos(self):
         return self.x, self.y
 
-    def pick_up(self, obj, density):
-        thresh = 0.15
+    def pick_up(self, obj, density, tick):
+        thresh = (tick/1000 * .05) + .1
         prob = (thresh / (thresh + density)) ** 2
         chance = np.random.rand()
 
@@ -38,8 +38,8 @@ class Ant:
             return True
         return False
 
-    def drop_off(self, density):
-        thresh = 0.15
+    def drop_off(self, density, tick):
+        thresh = (tick/1000 * .05) + .1
         chance = np.random.rand()
 
         prob = (density / (thresh + density)) ** 2
