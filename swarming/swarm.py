@@ -7,11 +7,12 @@ import math
 
 class Particle_Swarm:
 
-    def __init__(self, pop_size, v_min, v_max):
+    def __init__(self, pop_size, it_max, v_min, v_max):
         """
         Initializes particles
         """
 
+        self.it_max = it_max;
         if v_min > v_max:
             raise Exception('V_min cannot be bigger than V_max')
 
@@ -28,7 +29,7 @@ class Particle_Swarm:
             fit = self.evaluate(x)
 
             self.swarm.append(x)
-            self.velocity.append(np.random.uniform(v_min,v_max))
+            self.velocity.append(0)
             self.fitness.append(fit)
             
             self.bestind.append(x)
@@ -49,12 +50,12 @@ class Particle_Swarm:
         #return y;
 
 
-    def run(self, max_iterations):
+    def run(self):
         j = 0
-        while (j < max_iterations):
+        while (j < self.it_max):
             for i in range(len(self.swarm)):
-                phi1 = 0.1 + np.random.randn()
-                phi2 = 0.1 + np.random.randn()
+                phi1 = .1 * np.random.randn()
+                phi2 = .2 * np.random.randn()
 
                 self.velocity[i] += phi1 + (self.bestind[i] - self.swarm[i]) + phi2 + (self.best - self.swarm[i])
                 if (self.swarm[i] + self.velocity[i] > 0) and (self.swarm[i] + self.velocity[i] < 1):
@@ -74,7 +75,6 @@ class Particle_Swarm:
 
         print("Best is: %f, %f" % (self.best, self.top) )
 
-                
 
     def plot(self, point, path, wait):
         plt.clf()
