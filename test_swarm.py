@@ -20,17 +20,17 @@ def parse_args():
         "--it_max",
         "-i",
         type=int,
-        default=30,
+        default=100,
         help="maximum iterations")
     parser.add_argument(
         "--v_max",
         type=int,
-        default=.5,
+        default=.3,
         help="maximum velocity")
     parser.add_argument(
         "--v_min",
         type=int,
-        default=.01,
+        default=.1,
         help="minimum velocity")
 
     return parser.parse_args()
@@ -38,14 +38,22 @@ def parse_args():
 
 def main(args):
     print(args)
-    swarm = Particle_Swarm(
-        args.population,
-        args.it_max,
-        args.v_min,
-        args.v_max
-    )
+    j = 0
+    avg_it = 0
+    swarm = None
+    while j < 100: 
+        swarm = Particle_Swarm(
+            args.population,
+            args.it_max,
+            args.v_min,
+            args.v_max
+        )
 
-    swarm.run()
+        x, y, it = swarm.pso()
+        avg_it += it
+        j += 1
+    print("Average iterations: %f" % (avg_it/100))
+    swarm.save_plot()
 
 
 if __name__ == "__main__":

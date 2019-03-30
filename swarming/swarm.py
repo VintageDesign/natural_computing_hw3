@@ -1,5 +1,5 @@
 import numpy as np
-from scipy import optimize
+#from scipy import optimize
 import matplotlib.pyplot as plt
 import random
 import math
@@ -11,7 +11,7 @@ class Particle_Swarm:
         """
         Initializes particles
         """
-
+        plt.rcParams['font.family'] = "Bitstream Vera Sans"
         self.it_max = it_max
         if v_min > v_max:
             raise Exception('V_min cannot be bigger than V_max')
@@ -20,7 +20,7 @@ class Particle_Swarm:
         self.v_max = v_max
         self.swarm = []
         self.velocity = []
-        self.bestind = []
+        self.pr = []
         self.fitness = []
         self.fitbest = []
 
@@ -32,62 +32,82 @@ class Particle_Swarm:
             self.velocity.append(0)
             self.fitness.append(fit)
             
-            self.bestind.append(x)
+            self.pr.append(x)
             self.fitbest.append(fit)
 
-        self.best = self.swarm[self.fitness.index(min(self.fitness))]
+        self.g = self.swarm[self.fitness.index(min(self.fitness))]
         self.top = min(self.fitness)
 
 
-    def evaluate(self, x): # This is g() in the book
+    def evaluate(self, x):
         exponent = -2 * (((x-0.1)/0.9) ** 2)
         num = (2 ** exponent) * (math.sin(5 * math.pi * x) ** 6)
         return num
-        #y = float((x - 0.1)/0.9)
-        #y = math.pow(y, 2.0)
-        #y = math.pow(2.0,(-2.0 * y) )
-        #y = y * math.pow(math.sin(5*math.pi*x), 6)
-        #return y;
 
 
-    def run(self):
+    def pso(self):
         j = 0
-        while (j < self.it_max):
+        avg_x = []
+        best_x = []
+        it = []
+        
+        while j < self.it_max and 1 - self.top > 0.001:
             for i in range(len(self.swarm)):
-                phi1 = .1 * np.random.randn()
-                phi2 = .2 * np.random.randn()
+                phi1 = np.random.randn() * np.random.uniform(self.v_min, self.v_max)
+                phi2 = 4 * np.random.randn() * np.random.uniform(self.v_min, self.v_max)
 
-                self.velocity[i] += phi1 + (self.bestind[i] - self.swarm[i]) + phi2 + (self.best - self.swarm[i])
-                if (self.swarm[i] + self.velocity[i] > 0) and (self.swarm[i] + self.velocity[i] < 1):
-                    self.swarm[i] += self.velocity[i]
-                    self.fitness[i] = self.evaluate(self.swarm[i])
+                self.velocity[i] += phi1 * (self.pr[i] - self.swarm[i]) + phi2 * (self.g - self.swarm[i])
+                print(self.velocity[i])
+                
+                while (self.swarm[i] + self.velocity[i] < 0) or (self.swarm[i] + self.velocity[i] > 1):
+                    print("bad")
+                    self.velocity[i] *= np.random.uniform(self.v_min, self.v_max)
+
+                self.swarm[i] += self.velocity[i]
+                self.fitness[i] = self.evaluate(self.swarm[i])
 
             for i in range(len(self.swarm)):
                 if self.fitness[i] > self.fitbest[i]:
-                    self.bestind[i] = self.swarm[i]
+                    self.pr[i] = self.swarm[i]
                     self.fitbest[i] = self.fitness[i]
 
                 if self.fitness[i] > self.top:
-                    self.best = self.swarm[i]
+                    self.g = self.swarm[i]
                     self.top = self.fitness[i]
 
+            avg_x.append(np.average(self.swarm))
+            best_x.append(self.g)
+            it.append(j)
             j += 1
+        
+        self.plot(avg_x, best_x, it)
+        print("Best found at x=%f, y=%f (%f iterations)" % (self.g, self.top, j) )
+        return self.g, self.top, j
 
-        print("Best is: %f, %f" % (self.best, self.top) )
 
-
-    def plot(self, point, path, wait):
-        plt.clf()
-        if (path == 1):
-            plt.plot(point[0], point[1], color='red', zorder=0, label='Approximate')
-            plt.plot(.1, evaluate(.1),color='blue', label='Actual')
-        plt.scatter(point[0], point[1], marker='o')
-        plt.scatter(.1, evaluate(.1),marker='^')
-        plt.xlim(-.1,1.1)
-        plt.ylim(-.5,1.5)
-        plt.axis('on')
-        if (wait == 0):  plt.ion()
-        leg = plt.legend()
+    def plot(self, avg_x, best_x, it):
+        plt.plot(it, avg_x, color='green', linewidth=0.5)
+        plt.plot(it, best_x, color='blue', linewidth=0.5)
+        plt.axis('off')
+        plt.ion()
         plt.show()
-        plt.pause(.001)
+        plt.pause(.0001)
+
+    def save_plot(self):
+        plt.plot(0, 0, color='green', linewidth=0.3, label='Average position of swarm')
+        plt.plot(0, 0, color='blue', linewidth=0.3, label='Best position')
+        plt.axis('on')
+        plt.yticks(np.arange(0, 1, 0.1))
+        plt.xticks(np.arange(0, 30, 1))
+        ax = plt.gca()
+        ax.set_xlim(0, 30)
+        ax.set_title("Particle Swarm Algorithm", fontsize=20)
+        leg = ax.legend()
+        ax.legend(loc='upper right', frameon=False, fontsize=15, shadow=True, ncol=2)
+        plt.ion()
+        plt.show()
+        plt.pause(15)
+
+        fig = plt.gcf()
+        fig.savefig('plot.png')
 
